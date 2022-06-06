@@ -10,7 +10,8 @@
                         <div class="text-center">
                             <h1 class="h5 text-gray-900 mb-4">Selamat Datang di SPK Pengajuan Beasiswa</h1>
                         </div>
-                        <form>
+                        <form action="{{ route('login') }}" method="POST">
+                            @csrf
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="col-sm-3 col-form-label">NIP</label>
                                 <div class="col-sm-9">
@@ -24,9 +25,9 @@
                                 </div>
                             </div>
                             <div class="col-6 mx-auto pl-0">
-                                <a href="index.html" class="btn btn-primary btn-user btn-block">
+                                <button type="submit" class="btn btn-primary btn-user btn-block">
                                     Login
-                                </a>
+                                </button>
                             </div>
                         </form>
                     </div>
