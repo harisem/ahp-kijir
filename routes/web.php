@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,58 +28,56 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('dashboard.welcome');
     })->name('welcome');
-    
+
     Route::get('/dashboard', function () {
         return view('dashboard.index');
     })->name('dashboard');
-    
+
     Route::prefix('berita')->name('berita.')->group(function () {
-        Route::get('/posting', function () {
-            return view('berita.posting');
-        })->name('posting');
-        
-        Route::get('/lihat', function () {
-            return view('berita.lihat');
-        })->name('lihat');
+        Route::get('/posting', 'NewsController@find')->name('posting');
+
+        Route::get('/lihat',  'NewsController@lihat_berita')->name('lihat');
+
+        Route::post('/create', 'NewsController@create')->name('news');
     });
-    
+
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('/profil', function () {
             return view('user.profil');
         })->name('profil');
-        
+
         Route::get('/lihat', function () {
             return view('user.lihat');
         })->name('lihat');
-        
+
         Route::get('/tanggungan', function () {
             return view('user.tanggungan');
         })->name('tanggungan');
     });
-    
+
     Route::prefix('beasiswa')->name('beasiswa.')->group(function () {
         Route::get('/tambah', function () {
             return view('beasiswa.tambah');
         })->name('tambah');
-        
+
         Route::get('/status', function () {
             return view('beasiswa.status');
         })->name('status');
-        
+
         Route::get('/kelola', function () {
             return view('beasiswa.kelola');
         })->name('kelola');
-        
+
         Route::get('/rangking', function () {
             return view('beasiswa.rangking');
         })->name('rangking');
     });
-    
-    
+
+
     Route::get('/notifikasi', function () {
         return view('notifikasi.index');
     })->name('notifikasi');
-    
+
     Route::get('/laporan', function () {
         return view('laporan.index');
     })->name('laporan');
