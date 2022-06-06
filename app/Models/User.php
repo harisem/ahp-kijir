@@ -18,8 +18,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nip',
         'email',
+        'level_akun',
         'password',
     ];
 
@@ -41,4 +42,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function profiles()
+    {
+        return $this->hasOne('App\Models\Profile');
+    }
 }
