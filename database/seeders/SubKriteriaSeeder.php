@@ -58,7 +58,7 @@ class SubKriteriaSeeder extends Seeder
                 'nilai' => 0.297
             ],
             [
-                'name' => 'Cukup Mendukung',
+                'name' => 'Kurang Mendukung',
                 'nilai' => 0.163
             ],
         ];
@@ -96,7 +96,7 @@ class SubKriteriaSeeder extends Seeder
                 'nilai' => 0.327
             ],
             [
-                'name' => 'Cukup Mendukung',
+                'name' => 'Kurang Mendukung',
                 'nilai' => 0.26
             ],
         ];
