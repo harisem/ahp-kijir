@@ -72,7 +72,7 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Perangkingan</th>
+                                <th>Rangking</th>
                                 <th>Nama Karyawan</th>
                                 <th>Nama Penerima Beasiswa</th>
                                 <th>Masa Kerja</th>
@@ -84,50 +84,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Mulyanto</td>
-                                <td>Kurnianto</td>
-                                <td>8 Tahun</td>
-                                <td>Rp. 4.000.000</td>
-                                <td>4</td>
-                                <td>S1</td>
-                                <td>3.62</td>
-                                <td>0.419</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Bumi Ardi</td>
-                                <td>Bima Satria</td>
-                                <td>4 Tahun</td>
-                                <td>Rp. 5.000.000</td>
-                                <td>2</td>
-                                <td>SD</td>
-                                <td>85.50</td>
-                                <td>0.241</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Syahrul</td>
-                                <td>Adrianto</td>
-                                <td>2 Tahun</td>
-                                <td>Rp. 6.000.000</td>
-                                <td>3</td>
-                                <td>SD</td>
-                                <td>83.50</td>
-                                <td>0.192</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Reza</td>
-                                <td>Anisa</td>
-                                <td>2 Tahun</td>
-                                <td>Rp. 8.000.000</td>
-                                <td>2</td>
-                                <td>SMP</td>
-                                <td>88.00</td>
-                                <td>0.148</td>
-                            </tr>
+                            @foreach ($pengajuans as $p)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $p->tanggungans->profiles->name }}</td>
+                                    <td>{{ $p->nama }}</td>
+                                    <td>{{ $p->masa_kerja }}</td>
+                                    <td>{{ 'Rp. ' . number_format($p->gaji_pokok, 2, ',', '.') }}</td>
+                                    <td>{{ $p->jumlah_tanggungan }}</td>
+                                    <td>{{ $p->jenjang_pendidikan }}</td>
+                                    <td>{{ $p->nilai }}</td>
+                                    <td>{{ $p->nilai_akhir }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

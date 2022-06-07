@@ -37,7 +37,6 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>ID Pengajuan</th>
                                 <th>Tahun</th>
                                 <th>Nama Anak</th>
                                 <th>Pendidikan</th>
@@ -51,24 +50,31 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>BEA0001</td>
-                                <td>2022</td>
-                                <td>Bima Satria</td>
-                                <td>SD</td>
-                                <td>SDN Pekayon 14</td>
-                                <td>85.50</td>
-                                <td class="text-info"><ins>File</ins></td>
-                                <td class="text-info"><ins>File</ins></td>
-                                <td class="text-info"><ins>File</ins></td>
-                                <td>Belum Diproses</td>
-                                <td>
-                                    <div class="btn-group btn-group-sm" role="group">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#verifikasi">Verifikasi</button>
-                                        <a href="#" class="btn btn-warning">Hapus</a>
-                                    </div>
-                                </td>
-                            </tr>
+                            @foreach ($pengajuans as $p)
+                                <tr>
+                                    <td>{{ date('Y', strtotime($p->created_at)) }}</td>
+                                    <td>{{ $p->nama }}</td>
+                                    <td>{{ $p->jenjang_pendidikan }}</td>
+                                    <td>{{ $p->institusi_pendidikan }}</td>
+                                    <td>{{ $p->nilai }}</td>
+                                    <td>
+                                        <a href="{{ asset('pdf/pengajuan/' . $p->file_surat_permohonan) }}" target="_blank">File</a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ asset('pdf/pengajuan/' . $p->file_nilai) }}" target="_blank">File</a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ asset('pdf/pengajuan/' . $p->file_ket_pendidikan) }}" target="_blank">File</a>
+                                    </td>
+                                    <td>{{ Str::ucfirst($p->status) }}</td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#verifikasi">Verifikasi</button>
+                                            <a href="#" class="btn btn-warning">Hapus</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

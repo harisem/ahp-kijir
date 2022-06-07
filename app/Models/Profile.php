@@ -10,6 +10,7 @@ class Profile extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'nama',
         'jabatan',
         'tanggal_lahir',
@@ -18,8 +19,13 @@ class Profile extends Model
         'foto_profil',
     ];
 
+    public function tanggungans()
+    {
+        return $this->hasMany('App\Models\Tanggungan');
+    }
+
     public function users()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
 }

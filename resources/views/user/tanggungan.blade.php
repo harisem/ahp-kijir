@@ -11,10 +11,10 @@
         <div class="row mb-3 ml-1">
             <div class="col-sm-4">
                 <select class="custom-select" aria-label="Default select example">
-                    <option selected>1920394826182673 - Nama User</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option selected>Silahkan pilih user..</option>
+                    @foreach ($profiles as $p)
+                        <option value="{{ $p->id }}">{{ $p->users->nip . ' - ' . $p->name }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="col-sm-2">
@@ -66,28 +66,29 @@
                     <h5 class="modal-title mx-auto" id="exampleModalLabel">Tambah Tanggungan</h5>
                 </div>
                 <div class="modal-body">
-                    <form action="">
+                    <form action="{{ route('user.tambahTanggungan') }}" method="POST">
+                        @csrf
                         <div class="mb-3 row">
                             <label for="nip" class="col-sm-3 col-form-label">NIP</label>
                             <div class="col-sm-9">
                                 <select name="nip" id="nip" class="custom-select" aria-label="Default select example">
-                                    <option selected>1920394826182673 - Nama User</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option selected>Silahkan pilih user...</option>
+                                    @foreach ($profiles as $p)
+                                        <option value="{{ $p->id }}">{{ $p->users->nip . ' - ' . $p->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="nik" class="col-sm-3 col-form-label">NIK</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="nik">
+                                <input type="text" class="form-control" name="nik" id="nik">
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="nama" class="col-sm-3 col-form-label">Nama</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="nama">
+                                <input type="text" class="form-control" name="nama" id="nama">
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -107,18 +108,16 @@
                             <label for="status" class="col-sm-3 col-form-label">Status</label>
                             <div class="col-sm-9">
                                 <select name="status" id="status" class="custom-select" aria-label="Default select example">
-                                    <option selected>Anak</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option value="anak" selected>Anak</option>
+                                    <option value="suami">One</option>
+                                    <option value="istri">Two</option>
                                 </select>
                             </div>
                         </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>

@@ -10,18 +10,18 @@
                         <div class="text-center">
                             <h1 class="h5 text-gray-900 mb-4">Selamat Datang di SPK Pengajuan Beasiswa</h1>
                         </div>
-                        <form action="{{ route('login') }}" method="POST">
+                        <form action="{{ route('loginProcess') }}" method="POST">
                             @csrf
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="col-sm-3 col-form-label">NIP</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="staticEmail">
+                                    <input type="text" class="form-control" name="nip" id="nip">
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label for="inputPassword" class="col-sm-3 col-form-label">Password</label>
                                 <div class="col-sm-9">
-                                    <input type="password" class="form-control" id="inputPassword">
+                                    <input type="password" class="form-control" name="password" id="password">
                                 </div>
                             </div>
                             <div class="col-6 mx-auto pl-0">

@@ -50,28 +50,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/lihat', function () {
             return view('user.lihat');
         })->name('lihat');
-        
-        Route::get('/tanggungan', function () {
-            return view('user.tanggungan');
-        })->name('tanggungan');
+
+        Route::get('/tanggungan', 'TanggunganController@index')->name('tanggungan');
+        Route::post('/tanggungan', 'TanggunganController@create')->name('tambahTanggungan');
     });
     
     Route::prefix('beasiswa')->name('beasiswa.')->group(function () {
-        Route::get('/tambah', function () {
-            return view('beasiswa.tambah');
-        })->name('tambah');
-        
-        Route::get('/status', function () {
-            return view('beasiswa.status');
-        })->name('status');
-        
-        Route::get('/kelola', function () {
-            return view('beasiswa.kelola');
-        })->name('kelola');
-        
-        Route::get('/rangking', function () {
-            return view('beasiswa.rangking');
-        })->name('rangking');
+        Route::get('/tambah', 'PengajuanController@index')->name('tambah');
+        Route::post('/tambah', 'PengajuanController@create')->name('pengajuan');
+        Route::get('/status', 'PengajuanController@statusPengajuan')->name('status');
+        Route::get('/kelola', 'PengajuanController@kelolaPengajuan')->name('kelola');
+        Route::get('/rangking', 'PengajuanController@perangkingan')->name('rangking');
     });
     
     
