@@ -35,7 +35,7 @@ class PengajuanController extends Controller
 
     public function perangkingan()
     {
-        $pengajuans = Pengajuan::with('tanggungans.profiles')->orderBy('nilai', 'asc')->paginate(10);
+        $pengajuans = Pengajuan::with('tanggungans.profiles')->where('status', 'disetujui')->orderBy('nilai', 'desc')->paginate(10);
         return view('beasiswa.rangking', [
             'pengajuans' => $pengajuans,
         ]);
@@ -68,15 +68,15 @@ class PengajuanController extends Controller
                 case $request->masaKerja < 2:
                     $nilaiMasaKerja = $masaKerja->nilai * $subMasaKerja->where('nama', 'Kurang Mendukung')->first()->nilai;
                     break;
-                
+
                 case $request->masaKerja >= 2 && $request->masaKerja < 4:
                     $nilaiMasaKerja = $masaKerja->nilai * $subMasaKerja->where('nama', 'Cukup Mendukung')->first()->nilai;
                     break;
-                
+
                 case $request->masaKerja >= 4 && $request->masaKerja <= 6:
                     $nilaiMasaKerja = $masaKerja->nilai * $subMasaKerja->where('nama', 'Mendukung')->first()->nilai;
                     break;
-                
+
                 default:
                     $nilaiMasaKerja = $masaKerja->nilai * $subMasaKerja->where('nama', 'Sangat Mendukung')->first()->nilai;
                     break;
@@ -88,11 +88,11 @@ class PengajuanController extends Controller
                 case $request->gajiPokok < 5000000:
                     $nilaiGajiPokok = $gajiPokok->nilai * $subGajiPokok->where('nama', 'Sangat Mendukung')->first()->nilai;
                     break;
-                
+
                 case $request->gajiPokok >= 5000000 && $request->gajiPokok <= 8000000:
                     $nilaiGajiPokok = $gajiPokok->nilai * $subGajiPokok->where('nama', 'Mendukung')->first()->nilai;
                     break;
-                
+
                 default:
                     $nilaiGajiPokok = $gajiPokok->nilai * $subGajiPokok->where('nama', 'Kurang Mendukung')->first()->nilai;
                     break;
@@ -104,11 +104,11 @@ class PengajuanController extends Controller
                 case $request->jumlahTanggungan < 3:
                     $nilaiTanggungan = $tanggungan->nilai * $subTanggungan->where('nama', 'Kurang Mendukung')->first()->nilai;
                     break;
-                
+
                 case $request->jumlahTanggungan >= 3 && $request->jumlahTanggungan <= 6:
                     $nilaiTanggungan = $tanggungan->nilai * $subTanggungan->where('nama', 'Mendukung')->first()->nilai;
                     break;
-                
+
                 default:
                     $nilaiTanggungan = $tanggungan->nilai * $subTanggungan->where('nama', 'Sangat Mendukung')->first()->nilai;
                     break;
@@ -120,19 +120,19 @@ class PengajuanController extends Controller
                 case 'SD':
                     $nilaiPendidikan = $pendidikan->nilai * $subPendidikan->where('nama', 'SD')->first()->nilai;
                     break;
-                
+
                 case 'SMP':
                     $nilaiPendidikan = $pendidikan->nilai * $subPendidikan->where('nama', 'SMP')->first()->nilai;
                     break;
-                
+
                 case 'SMA':
                     $nilaiPendidikan = $pendidikan->nilai * $subPendidikan->where('nama', 'SMA')->first()->nilai;
                     break;
-                
+
                 case 'D3/D4':
                     $nilaiPendidikan = $pendidikan->nilai * $subPendidikan->where('nama', 'D3/D4')->first()->nilai;
                     break;
-                
+
                 default:
                     $nilaiPendidikan = $pendidikan->nilai * $subPendidikan->where('nama', 'S1')->first()->nilai;
                     break;
@@ -141,22 +141,22 @@ class PengajuanController extends Controller
             $nilai = Kriteria::with('subkriterias')->where('nama', 'Nilai')->first();
             $subNilai = $nilai->subkriterias;
             switch (true) {
-                case $request->nilai >= 80 && $request->nilai <= 85 :
+                case $request->nilai >= 80 && $request->nilai <= 85:
                     $kriteriaNilai = $nilai->nilai * $subNilai->where('nama', 'Kurang Mendukung')->first()->nilai;
                     break;
-                
-                case $request->nilai >= 3.20 && $request->nilai <= 3.50 :
+
+                case $request->nilai >= 3.20 && $request->nilai <= 3.50:
                     $kriteriaNilai = $nilai->nilai * $subNilai->where('nama', 'Kurang Mendukung')->first()->nilai;
                     break;
-                
-                case $request->nilai >= 86 && $request->nilai <= 90 :
+
+                case $request->nilai >= 86 && $request->nilai <= 90:
                     $kriteriaNilai = $nilai->nilai * $subNilai->where('nama', 'Mendukung')->first()->nilai;
                     break;
-                
-                case $request->nilai >= 3.51 && $request->nilai <= 3.80 :
+
+                case $request->nilai >= 3.51 && $request->nilai <= 3.80:
                     $kriteriaNilai = $nilai->nilai * $subNilai->where('nama', 'Mendukung')->first()->nilai;
                     break;
-                
+
                 default:
                     $kriteriaNilai = $nilai->nilai * $subNilai->where('nama', 'Sangat Mendukung')->first()->nilai;
                     break;
@@ -179,5 +179,14 @@ class PengajuanController extends Controller
         });
 
         return redirect()->route('beasiswa.tambah')->with('success', 'Data berhasil disimpan');
+    }
+
+    public function verifikasi_pengajuan($id, Request $request)
+    {
+        // dd($request);
+        $pengajuan = Pengajuan::where('id', $id)->first();
+        $pengajuan->status = $request->status;
+        $pengajuan->update();
+        return redirect()->back()->with('success', 'Data berhasil di ubah');
     }
 }

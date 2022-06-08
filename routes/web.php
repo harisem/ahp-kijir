@@ -29,6 +29,12 @@ Route::middleware('auth')->group(function () {
         return view('dashboard.welcome');
     })->name('welcome');
 
+    Route::get('/logout', function () {
+        Auth::logout();
+
+        return redirect()->route('login');
+    })->name('logout');
+
     Route::get('/dashboard', function () {
         return view('dashboard.index');
     })->name('dashboard');
@@ -60,6 +66,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/status', 'PengajuanController@statusPengajuan')->name('status');
         Route::get('/kelola', 'PengajuanController@kelolaPengajuan')->name('kelola');
         Route::get('/rangking', 'PengajuanController@perangkingan')->name('rangking');
+        Route::post('/verifikasi/{id}', 'PengajuanController@verifikasi_pengajuan')->name('verifikasi');
     });
 
 

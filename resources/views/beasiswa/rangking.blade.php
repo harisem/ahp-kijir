@@ -1,14 +1,14 @@
 @extends('templates.master')
 
 @section('title')
-    Perangkingan Beasiswa
+Perangkingan Beasiswa
 @endsection
 
 @section('content')
-    <div class="container-fluid">
-        <h1 class="h3 mb-3 text-gray-800">Perangkingan Beasiswa</h1>
-        
-        <div class="card shadow mb-4 mt-4">
+<div class="container-fluid">
+    <h1 class="h3 mb-3 text-gray-800">Perangkingan Beasiswa</h1>
+
+    <!-- <div class="card shadow mb-4 mt-4">
             <div class="card-header">
                 <h1 class="h5 text-center my-auto">
                     Silahkan isi nilai bobot kriteria
@@ -60,47 +60,47 @@
                     </div>
                 </form>
             </div>
-        </div>
-
+        </div> -->
+    <!-- 
         <div class="text-center mb-4">
             <button type="button" class="btn btn-primary">Lakukan Perangkingan</button>
-        </div>
+        </div> -->
 
-        <div class="card shadow mb-4">
-            <div class="card-body">
-                <div class="table-responsive text-center">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Rangking</th>
-                                <th>Nama Karyawan</th>
-                                <th>Nama Penerima Beasiswa</th>
-                                <th>Masa Kerja</th>
-                                <th>Gaji Pokok</th>
-                                <th>Tanggungan</th>
-                                <th>Pendidikan</th>
-                                <th>Nilai</th>
-                                <th>Nilai Akhir</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($pengajuans as $p)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $p->tanggungans->profiles->name }}</td>
-                                    <td>{{ $p->nama }}</td>
-                                    <td>{{ $p->masa_kerja }}</td>
-                                    <td>{{ 'Rp. ' . number_format($p->gaji_pokok, 2, ',', '.') }}</td>
-                                    <td>{{ $p->jumlah_tanggungan }}</td>
-                                    <td>{{ $p->jenjang_pendidikan }}</td>
-                                    <td>{{ $p->nilai }}</td>
-                                    <td>{{ $p->nilai_akhir }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive text-center">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Rangking</th>
+                            <th>Nama Karyawan</th>
+                            <th>Nama Penerima Beasiswa</th>
+                            <th>Masa Kerja</th>
+                            <th>Gaji Pokok</th>
+                            <th>Tanggungan</th>
+                            <th>Pendidikan</th>
+                            <th>Nilai</th>
+                            <th>Nilai Akhir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($pengajuans as $p)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $p->tanggungans->profiles->name }}</td>
+                            <td>{{ $p->nama }}</td>
+                            <td>{{ $p->masa_kerja }}</td>
+                            <td>{{ 'Rp. ' . number_format($p->gaji_pokok, 2, ',', '.') }}</td>
+                            <td>{{ $p->jumlah_tanggungan }}</td>
+                            <td>{{ $p->jenjang_pendidikan }}</td>
+                            <td>{{ $p->nilai }}</td>
+                            <td>{{ $p->nilai_akhir }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 @endsection
