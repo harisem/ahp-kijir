@@ -214,7 +214,15 @@ class PengajuanController extends Controller
 
     public function verifikasi_pengajuan($id, Request $request)
     {
-        // dd($request);
+        $pengajuan = Pengajuan::where('id', $id)->first();
+        $pengajuan->status = $request->status;
+        $pengajuan->pertimbangan = $request->pertimbangan;
+        $pengajuan->update();
+        return redirect()->back()->with('success', 'Data berhasil di ubah');
+    }
+
+    public function verifikasi_manager($id, Request $request)
+    {
         $pengajuan = Pengajuan::where('id', $id)->first();
         $pengajuan->status = $request->status;
         $pengajuan->pertimbangan = $request->pertimbangan;

@@ -96,6 +96,12 @@ Kelola Pengajuan Beasiswa
                             </select>
                         </div>
                     </div>
+                    <div class="mb-2 col-md-6 row">
+                        <label for="pertimbangan" class="col-sm-6 form-label">Pertimbangan Penerimaan Beasiswa</label>
+                        <div class="col-sm-6">
+                            <textarea class="form-control" name="pertimbangan" id="pertimbangan" rows="3"></textarea>
+                        </div>
+                    </div>
                 </div>
                 <div class="mt-4 mx-auto">
                     <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
