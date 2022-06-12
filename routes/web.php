@@ -61,6 +61,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/kelola', 'PengajuanController@kelolaPengajuan')->name('kelola');
         Route::get('/kelola/{id}', 'PengajuanController@show')->name('formKelola');
         Route::get('/rangking', 'PengajuanController@perangkingan')->name('rangking');
+        Route::get('/rangking/{id}', 'PengajuanController@showRangking')->name('formRangking');
         Route::post('/verifikasi/{id}', 'PengajuanController@verifikasi_pengajuan')->name('verifikasi');
     });
 

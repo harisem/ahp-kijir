@@ -44,10 +44,20 @@ class PengajuanController extends Controller
 
     public function perangkingan()
     {
-        $pengajuans = Pengajuan::with('tanggungans.profiles')->where('status', 'disetujui')->orderBy('nilai', 'desc')->paginate(10);
-        dd($pengajuans);
+        $pengajuans = Pengajuan::with('tanggungans.profiles')->where('status', 'menunggu keputusan')->orderBy('nilai', 'desc')->paginate(10);
+        // dd($pengajuans);
         return view('beasiswa.rangking', [
             'pengajuans' => $pengajuans,
+        ]);
+    }
+
+    public function showRangking($id)
+    {
+        $pengajuan = Pengajuan::with('tanggungans.profiles')->where('id', $id)->first();
+        $currentYear = Carbon::now()->year;
+        return view('beasiswa.formRangking', [
+            'pengajuan' => $pengajuan,
+            'currentYear' => $currentYear
         ]);
     }
 

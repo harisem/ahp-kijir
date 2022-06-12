@@ -86,7 +86,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Charts -->
-    @if(Auth::user()->level_akun == 'karyawan' || Auth::user()->level_akun == 'manager' || Auth::user()->level_akun == 'staff sdm')
+    @if(Auth::user()->level_akun == 'karyawan' || Auth::user()->level_akun == 'staff sdm')
     @else
     <li class="nav-item {{ request()->routeIs('beasiswa.rangking') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('beasiswa.rangking') }}">

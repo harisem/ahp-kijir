@@ -28,7 +28,7 @@ class CreatePengajuansTable extends Migration
             $table->string('file_ket_pendidikan');
             $table->decimal('nilai_akhir', 8, 2, true);
             $table->text('pertimbangan')->nullable();
-            $table->enum('status', ['disetujui', 'menunggu konfirmasi', 'tidak disetujui'])->default('menunggu konfirmasi');
+            $table->enum('status', ['tidak memenuhi syarat', 'belum diproses', 'disetujui', 'menunggu keputusan', 'tidak disetujui'])->default('belum diproses');
             $table->timestamps();
 
             $table->foreign('tanggungan_id')->references('id')->on('tanggungans')->onDelete('cascade')->onUpdate('cascade');

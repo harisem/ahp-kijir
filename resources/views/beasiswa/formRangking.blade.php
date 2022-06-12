@@ -1,12 +1,12 @@
 @extends('templates.master')
 
 @section('title')
-Kelola Pengajuan Beasiswa
+    Perangkingan Beasiswa
 @endsection
 
 @section('content')
 <div class="container-fluid">
-    <h1 class="h3 mb-3 text-gray-800">Kelola Pengajuan Beasiswa</h1>
+    <h1 class="h3 mb-3 text-gray-800">Perangkingan Beasiswa</h1>
 
     <div class="card shadow mb-4 mt-4">
         <div class="card-body">
@@ -90,10 +90,15 @@ Kelola Pengajuan Beasiswa
                         <div class="col-sm-6">
                             <select name="status" id="status" class="custom-select" aria-label="Default select example">
                                 <option value="{{ $pengajuan->status }}" selected>{{ Str::ucfirst($pengajuan->status) }}</option>
-                                <option value="menunggu keputusan">Menunggu Keputusan</option>
-                                <option value="tidak memenuhi syarat">Tidak Memenuhi Syarat</option>
-                                <option value="belum diproses">Belum Diproses</option>
+                                <option value="disetujui">Disetujui</option>
+                                <option value="tidak disetujui">Tidak Disetujui</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="mb-2 col-md-6 row">
+                        <label for="pertimbangan" class="col-sm-6 form-label">Pertimbangan Penerimaan Beasiswa</label>
+                        <div class="col-sm-6">
+                            <textarea class="form-control" name="pertimbangan" id="pertimbangan" rows="3"></textarea>
                         </div>
                     </div>
                 </div>
