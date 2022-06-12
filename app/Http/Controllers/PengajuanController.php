@@ -207,6 +207,7 @@ class PengajuanController extends Controller
         // dd($request);
         $pengajuan = Pengajuan::where('id', $id)->first();
         $pengajuan->status = $request->status;
+        $pengajuan->pertimbangan = $request->pertimbangan;
         $pengajuan->update();
         return redirect()->back()->with('success', 'Data berhasil di ubah');
     }

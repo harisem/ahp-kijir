@@ -8,6 +8,27 @@ Kelola Pengajuan Beasiswa
 <div class="container-fluid">
     <h1 class="h3 mb-3 text-gray-800">Kelola Pengajuan Beasiswa</h1>
 
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success alert-block">
+            <strong>{{ $message }}</strong>
+        </div>
+        @endif
+
+        @if ($message = Session::get('error'))
+        <div class="alert alert-danger alert-block">
+            <strong>{{ $message }}</strong>
+        </div>
+        @endif
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
     <div class="card shadow mb-4 mt-4">
         <div class="card-body">
             <form action="" class="mb-3 col-md-6">

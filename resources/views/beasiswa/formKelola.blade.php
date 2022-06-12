@@ -10,7 +10,8 @@ Kelola Pengajuan Beasiswa
 
     <div class="card shadow mb-4 mt-4">
         <div class="card-body">
-            <form action="" class="row mb-3">
+            <form action="{{ route('beasiswa.verifikasi', $pengajuan->id) }}" method="POST" class="row mb-3">
+                @csrf
                 <div class="row">
                     <div class="mb-2 col-md-6 row">
                         <label for="nip" class="col-sm-6 col-form-label">NIP</label>
