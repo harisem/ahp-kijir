@@ -41,22 +41,16 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('berita')->name('berita.')->group(function () {
         Route::get('/posting', 'NewsController@find')->name('posting');
-
         Route::get('/lihat',  'NewsController@lihat_berita')->name('lihat');
-
         Route::post('/create', 'NewsController@create')->name('news');
     });
 
     Route::prefix('user')->name('user.')->group(function () {
-        Route::get('/profil', function () {
-            return view('user.profil');
-        })->name('profil');
-
-        Route::get('/lihat', function () {
-            return view('user.lihat');
-        })->name('lihat');
-
+        Route::get('/profil', 'UserController@profile')->name('profil');
+        Route::get('/lihat', 'UserController@index')->name('lihat');
+        Route::post('/lihat', 'UserController@create')->name('tambah');
         Route::get('/tanggungan', 'TanggunganController@index')->name('tanggungan');
+        Route::delete('/tanggungan/{id}', 'TanggunganController@destroy')->name('hapusTanggungan');
         Route::post('/tanggungan', 'TanggunganController@create')->name('tambahTanggungan');
     });
 
@@ -65,6 +59,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/tambah', 'PengajuanController@create')->name('pengajuan');
         Route::get('/status', 'PengajuanController@statusPengajuan')->name('status');
         Route::get('/kelola', 'PengajuanController@kelolaPengajuan')->name('kelola');
+        Route::get('/kelola/{id}', 'PengajuanController@show')->name('formKelola');
         Route::get('/rangking', 'PengajuanController@perangkingan')->name('rangking');
         Route::post('/verifikasi/{id}', 'PengajuanController@verifikasi_pengajuan')->name('verifikasi');
     });

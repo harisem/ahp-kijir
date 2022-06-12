@@ -8,51 +8,85 @@
     <div class="container-fluid">
         <h1 class="h3 mb-3 text-gray-800">Kelola Tanggungan</h1>
 
-        <div class="row mb-3 ml-1">
-            <div class="col-sm-4">
-                <select class="custom-select" aria-label="Default select example">
-                    <option selected>Silahkan pilih user..</option>
-                    @foreach ($profiles as $p)
-                        <option value="{{ $p->id }}">{{ $p->users->nip . ' - ' . $p->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahTanggungan">Tambah Tanggungan</button>
-            </div>
+        @if ($message = Session::get('success'))
+        <div class="alert alert-success alert-block">
+            <strong>{{ $message }}</strong>
+        </div>
+        @endif
+
+        @if ($message = Session::get('error'))
+        <div class="alert alert-danger alert-block">
+            <strong>{{ $message }}</strong>
+        </div>
+        @endif
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
+        <div class="mb-3">
+            <form action="{{ route('user.tanggungan') }}" method="GET" class="row ml-1">
+                <div class="col-sm-3">
+                    <select name="id" id="id" class="custom-select" aria-label="Default select example">
+                        <option value="{{ $profiles['profile']->users->nip }}" selected>{{ $profiles['profile']->users->nip .' - ' . $profiles['profile']->name }} @if($profiles['profile']->users->id === Auth::id()) (Anda) @endif</option>
+                        @foreach ($profiles['all'] as $p)
+                            @if ($p->users->nip !== $profiles['profile']->users->nip)
+                                <option value="{{ $p->users->nip }}">{{ $p->users->nip . ' - ' . $p->name }} @if($p->users->id === Auth::id()) (Anda) @endif</option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-sm-1">
+                    <button type="submit" class="btn btn-primary btn-block">Cari</button>
+                </div>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahTanggungan">Tambah Tanggungan</button>
+                </div>
+            </form>
         </div>
 
         <div class="col-sm-6">
             <div class="card">
                 <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Nama</th>
-                                <th scope="col">Tanggal Lahir</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Tindakan</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-group-divider">
-                            <tr>
-                                <td>Anisa</td>
-                                <td>20 Maret 1995</td>
-                                <td>Istri</td>
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-primary">Hapus</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Bima Satria Putra</td>
-                                <td>20 Maret 2015</td>
-                                <td>Anak</td>
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-primary">Hapus</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    @if (empty($profiles['profile']))
+                    <h6 class="text-center">Silahkan pilih user</h6>
+                    @else
+                        @if (count($profiles['profile']->tanggungans) === 0)
+                            <h6 class="text-center">@if($profiles['profile']->users->id === Auth::id()) Anda @else {{ $profiles['profile']->name }} @endif belum memiliki tanggungan.</h6>
+                        @else
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nama</th>
+                                        <th scope="col">Tanggal Lahir</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Tindakan</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                    @foreach ($profiles['profile']->tanggungans as $t)
+                                        <tr>
+                                            <td>{{ $t->nama }}</td>
+                                            <td>{{ date('d M Y', strtotime($t->tanggal_lahir)) }}</td>
+                                            <td>{{ Str::ucfirst($t->status_keluarga) }}</td>
+                                            <td>
+                                                <form action="{{ route('user.hapusTanggungan', $t->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-warning">Hapus</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @endif
+                    @endif
                 </div>
             </div>
         </div>
@@ -71,12 +105,7 @@
                         <div class="mb-3 row">
                             <label for="nip" class="col-sm-3 col-form-label">NIP</label>
                             <div class="col-sm-9">
-                                <select name="nip" id="nip" class="custom-select" aria-label="Default select example">
-                                    <option selected>Silahkan pilih user...</option>
-                                    @foreach ($profiles as $p)
-                                        <option value="{{ $p->id }}">{{ $p->users->nip . ' - ' . $p->name }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" id="nip" name="nip" class="form-control" value="{{ $profiles['profile']->users->nip }}" readonly>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -109,8 +138,8 @@
                             <div class="col-sm-9">
                                 <select name="status" id="status" class="custom-select" aria-label="Default select example">
                                     <option value="anak" selected>Anak</option>
-                                    <option value="suami">One</option>
-                                    <option value="istri">Two</option>
+                                    <option value="suami">Suami</option>
+                                    <option value="istri">Istri</option>
                                 </select>
                             </div>
                         </div>

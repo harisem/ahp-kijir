@@ -37,7 +37,8 @@ Kelola Pengajuan Beasiswa
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Tahun</th>
+                            <th>NIP</th>
+                            <th>Nama Karyawan</th>
                             <th>Nama Anak</th>
                             <th>Pendidikan</th>
                             <th>Instansi Pendidikan</th>
@@ -52,7 +53,8 @@ Kelola Pengajuan Beasiswa
                     <tbody>
                         @foreach ($pengajuans as $p)
                         <tr>
-                            <td>{{ date('Y', strtotime($p->created_at)) }}</td>
+                            <td>{{ $p->tanggungans->profiles->users->nip }}</td>
+                            <td>{{ $p->tanggungans->profiles->name }}</td>
                             <td>{{ $p->nama }}</td>
                             <td>{{ $p->jenjang_pendidikan }}</td>
                             <td>{{ $p->institusi_pendidikan }}</td>
@@ -69,7 +71,8 @@ Kelola Pengajuan Beasiswa
                             <td>{{ Str::ucfirst($p->status) }}</td>
                             <td>
                                 <div class="btn-group btn-group-sm" role="group">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#verifikasi">Verifikasi</button>
+                                    {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#verifikasi">Verifikasi</button> --}}
+                                    <a href="{{ route('beasiswa.formKelola', $p->id) }}" class="btn btn-primary">Verifikasi</a>
                                     <a href="#" class="btn btn-warning">Hapus</a>
                                 </div>
                             </td>
@@ -79,9 +82,6 @@ Kelola Pengajuan Beasiswa
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title mx-auto" id="verifikasiLabel">Verifikasi Pengajuan Beasiswa</h5>
-                                        {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button> --}}
                                     </div>
                                     <div class="modal-body">
                                         <form action="{{route('beasiswa.verifikasi',$p->id)}}" method="POST">

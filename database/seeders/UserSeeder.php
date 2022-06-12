@@ -17,34 +17,34 @@ class UserSeeder extends Seeder
     {
         $manager = User::create([
             'nip' => '1923456789',
-            'email' => 'manager@email.com',
+            'email' => 'johnny@email.com',
             'level_akun' => 'manager',
-            'password' => bcrypt('manager123')
+            'password' => bcrypt('johnny123')
         ]);
 
         $staffTi = User::create([
             'nip' => '1987623598',
-            'email' => 'staff.ti@email.com',
+            'email' => 'ronnie@email.com',
             'level_akun' => 'staff ti',
-            'password' => bcrypt('staffti123')
+            'password' => bcrypt('ronnie123')
         ]);
 
         $staffSdm = User::create([
             'nip' => '1909678726',
-            'email' => 'staff.sdm@email.com',
+            'email' => 'abigail@email.com',
             'level_akun' => 'staff sdm',
-            'password' => bcrypt('staffsdm123')
+            'password' => bcrypt('abigail123')
         ]);
 
         $karyawan = User::create([
             'nip' => '1927634976',
-            'email' => 'karyawan@email.com',
+            'email' => 'bethanie@email.com',
             'level_akun' => 'karyawan',
-            'password' => bcrypt('karyawan123')
+            'password' => bcrypt('bethanie123')
         ]);
 
         $manager->profiles()->create([
-            'name' => 'Mr. Manager',
+            'name' => 'Johnny',
             'jabatan' => 'Manager Biro SDM & TI',
             'tanggal_lahir' => Carbon::create(1979, 10, 1),
             'mulai_kerja' => Carbon::create(2014, 2, 21),
@@ -52,7 +52,7 @@ class UserSeeder extends Seeder
         ]);
 
         $staffTi->profiles()->create([
-            'name' => 'Mr. TI',
+            'name' => 'Ronnie',
             'jabatan' => 'Staff TI',
             'tanggal_lahir' => Carbon::create(1982, 7, 1),
             'mulai_kerja' => Carbon::create(2015, 6, 5),
@@ -60,7 +60,7 @@ class UserSeeder extends Seeder
         ]);
 
         $staffSdm->profiles()->create([
-            'name' => 'Mr. SDM',
+            'name' => 'Abigail',
             'jabatan' => 'Staff SDM',
             'tanggal_lahir' => Carbon::create(1985, 3, 15),
             'mulai_kerja' => Carbon::create(2015, 12, 1),
@@ -68,7 +68,7 @@ class UserSeeder extends Seeder
         ]);
 
         $karyawan->profiles()->create([
-            'name' => 'Mr. Karyawan',
+            'name' => 'Bethanie',
             'jabatan' => 'Karyawan',
             'tanggal_lahir' => Carbon::create(1990, 9, 15),
             'mulai_kerja' => Carbon::create(2018, 1, 28),

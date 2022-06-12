@@ -27,6 +27,7 @@ class CreatePengajuansTable extends Migration
             $table->string('file_surat_permohonan');
             $table->string('file_ket_pendidikan');
             $table->decimal('nilai_akhir', 8, 2, true);
+            $table->text('pertimbangan')->nullable();
             $table->enum('status', ['disetujui', 'menunggu konfirmasi', 'tidak disetujui'])->default('menunggu konfirmasi');
             $table->timestamps();
 
