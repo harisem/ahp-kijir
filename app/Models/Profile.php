@@ -24,6 +24,11 @@ class Profile extends Model
         return $this->hasMany('App\Models\Tanggungan');
     }
 
+    public function pengajuanTanggungans()
+    {
+        return $this->hasOneThrough('App\Models\Pengajuan', 'App\Models\Tanggungan');
+    }
+
     public function users()
     {
         return $this->belongsTo('App\Models\User', 'user_id');

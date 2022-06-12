@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CreatePengajuanRequest;
 use App\Models\Kriteria;
 use App\Models\Pengajuan;
+use App\Models\Profile;
 use App\Models\Tanggungan;
 use App\Models\User;
 use Carbon\Carbon;
@@ -19,7 +20,6 @@ class PengajuanController extends Controller
     {
         $user = User::with('profiles.tanggungans')->where('id' , Auth::id())->first();
         $currentYear = Carbon::now()->year;
-        // dd($user);
         return view('beasiswa.tambah', [
             'user' => $user,
             'currentYear' => $currentYear
@@ -28,9 +28,10 @@ class PengajuanController extends Controller
 
     public function statusPengajuan()
     {
-        $pengajuans = Pengajuan::latest()->paginate(10);
+        $pengajuans = Profile::with('pengajuanTanggungans.tanggungans')->where('user_id', Auth::id())->first();
+
         return view('beasiswa.status', [
-            'pengajuans' => $pengajuans,
+            'pengajuans' => [$pengajuans->pengajuanTanggungans],
         ]);
     }
 
@@ -45,7 +46,6 @@ class PengajuanController extends Controller
     public function perangkingan()
     {
         $pengajuans = Pengajuan::with('tanggungans.profiles')->where('status', 'menunggu keputusan')->orderBy('nilai', 'desc')->paginate(10);
-        // dd($pengajuans);
         return view('beasiswa.rangking', [
             'pengajuans' => $pengajuans,
         ]);
