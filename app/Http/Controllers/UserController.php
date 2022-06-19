@@ -74,6 +74,40 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'Data berhasil disimpan.');
     }
 
+    public function update($id, Request $request)
+    {
+        $request->validate([
+            'nip' => 'required',
+            'nama' => 'required',
+            'jabatan' => 'required',
+            'tanggal_lahir' => 'required',
+            'tanggal_bergabung' => 'required',
+            'gaji_pokok' => 'required',
+            'level_akun' => 'required',
+            'email' => 'required|email',
+        ]);
+
+        DB::transaction(function () use ($request, $id) {
+            $user = User::find($id);
+            $profile = Profile::where('user_id', $id)->first();
+
+            $user->update([
+                'email' => $request->email,
+                'level_akun' => $request->level_akun,
+            ]);
+
+            $profile->update([
+                'name' => $request->nama,
+                'jabatan' => $request->jabatan,
+                'tanggal_lahir' => Carbon::parse($request->tanggal_lahir),
+                'mulai_kerja' => Carbon::parse($request->tanggal_bergabung),
+                'gaji_pokok' => $request->gaji_pokok,
+            ]);
+        });
+
+        return redirect()->back()->with('success', 'Data berhasil diubah.');
+    }
+
     public function profile()
     {
         $profile = Profile::with(['users', 'tanggungans'])->whereHas('users', function ($query) {

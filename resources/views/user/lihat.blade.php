@@ -249,7 +249,7 @@
                     <h5 class="modal-title mx-auto" id="exampleModalLabel">Ubah Data Pengguna</h5>
                 </div>
                 <div class="modal-body">
-                    <form action="">
+                    <form action="{{ route('user.ubahData', $users['user']->users->id) }}">
                         <div class="mb-3 row">
                             <label for="nip" class="col-sm-5 col-form-label">NIP</label>
                             <div class="col-sm-7">
@@ -274,10 +274,10 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="tglLahir" class="col-sm-5 col-form-label">Tanggal Lahir</label>
+                            <label for="tanggal_lahir" class="col-sm-5 col-form-label">Tanggal Lahir</label>
                             <div class="col-sm-7">
                                 <div class="input-group date" id="datepicker">
-                                    <input type="text" class="form-control" name="tglLahir" id="tglLahir" value="{{ date('m/d/Y', strtotime($users['user']->tanggal_lahir)) }}">
+                                    <input type="text" class="form-control" name="tanggal_lahir" id="tanggal_lahir" value="{{ date('m/d/Y', strtotime($users['user']->tanggal_lahir)) }}">
                                     <span class="input-group-append">
                                         <span class="input-group-text bg-white">
                                             <i class="fas fa-calendar"></i>
@@ -287,10 +287,10 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="tglBergabung" class="col-sm-5 col-form-label">Tanggal Bergabung</label>
+                            <label for="tanggal_bergabung" class="col-sm-5 col-form-label">Tanggal Bergabung</label>
                             <div class="col-sm-7">
                                 <div class="input-group date" id="datepicker1">
-                                    <input type="text" class="form-control" name="tglBergabung" id="tglBergabung" value="{{ date('m/d/Y', strtotime($users['user']->users->created_at)) }}">
+                                    <input type="text" class="form-control" name="tanggal_bergabung" id="tanggal_bergabung" value="{{ date('m/d/Y', strtotime($users['user']->users->created_at)) }}">
                                     <span class="input-group-append">
                                         <span class="input-group-text bg-white">
                                             <i class="fas fa-calendar"></i>
@@ -300,15 +300,15 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="gajiPokok" class="col-sm-5 col-form-label">Gaji Pokok</label>
+                            <label for="gaji_pokok" class="col-sm-5 col-form-label">Gaji Pokok</label>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" name="gajiPokok" id="gajiPokok" value="{{ $users['user']->gaji_pokok }}">
+                                <input type="text" class="form-control" name="gaji_pokok" id="gaji_pokok" value="{{ $users['user']->gaji_pokok }}">
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="levelAkun" class="col-sm-5 col-form-label">Level Akun</label>
+                            <label for="level_akun" class="col-sm-5 col-form-label">Level Akun</label>
                             <div class="col-sm-7">
-                                <select name="levelAkun" id="levelAkun" class="custom-select" aria-label="Default select example">
+                                <select name="level_akun" id="level_akun" class="custom-select" aria-label="Default select example">
                                     <option value="{{ $users['user']->users->level_akun }}" selected disabled>{{ $users['user']->users->level_akun }}</option>
                                     <option value="manager" @if($users['user']->users->level_akun === 'manager') style="display: none" @endif>manager</option>
                                     <option value="staff ti" @if($users['user']->users->level_akun === 'staff ti') style="display: none" @endif>staff ti</option>
@@ -324,21 +324,9 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="password" class="col-sm-5 col-form-label">Password</label>
+                            <label for="foto_profil" class="col-sm-5 col-form-label">Foto Profil</label>
                             <div class="col-sm-7">
-                                <input type="password" class="form-control" name="password" id="password">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="konfirmPassword" class="col-sm-5 col-form-label">Konfirmasi Password</label>
-                            <div class="col-sm-7">
-                                <input type="password" class="form-control" name="konfirmPassword" id="konfirmPassword">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="formFile" class="col-sm-5 col-form-label">Foto Profil</label>
-                            <div class="col-sm-7">
-                                <input class="custom-file" type="file" id="formFile">
+                                <input class="custom-file" type="file" name="foto_profil" id="foto_profil">
                             </div>
                         </div>
                         <div class="text-center">

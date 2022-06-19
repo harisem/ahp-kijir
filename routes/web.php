@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('/profil', 'UserController@profile')->name('profil');
         Route::get('/lihat', 'UserController@index')->name('lihat');
+        Route::post('/lihat/{id}', 'UserController@update')->name('ubahData');
         Route::post('/lihat', 'UserController@create')->name('tambah');
         Route::get('/tanggungan', 'TanggunganController@index')->name('tanggungan');
         Route::delete('/tanggungan/{id}', 'TanggunganController@destroy')->name('hapusTanggungan');
@@ -67,11 +68,13 @@ Route::middleware('auth')->group(function () {
     });
 
 
-    Route::get('/notifikasi', function () {
-        return view('notifikasi.index');
-    })->name('notifikasi');
+    Route::get('/notifikasi', 'NotificationController@index')->name('notifikasi');
 
     Route::get('/laporan', function () {
         return view('laporan.index');
     })->name('laporan');
+
+    Route::get('/laporan/pdf', function () {
+        return view('laporan.myPdf');
+    });
 });

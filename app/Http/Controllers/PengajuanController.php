@@ -29,7 +29,6 @@ class PengajuanController extends Controller
     public function statusPengajuan()
     {
         $pengajuans = Profile::with('pengajuanTanggungans.tanggungans')->where('user_id', Auth::id())->first();
-
         return view('beasiswa.status', [
             'pengajuans' => [$pengajuans->pengajuanTanggungans],
         ]);
@@ -214,19 +213,37 @@ class PengajuanController extends Controller
 
     public function verifikasi_pengajuan($id, Request $request)
     {
-        $pengajuan = Pengajuan::where('id', $id)->first();
+        $pengajuan = Pengajuan::with('tanggungans.profiles')->where('id', $id)->first();
+        // dd($pengajuan->nama);
+        // $pengajuan = Pengajuan::where('id', $id)->first();
         $pengajuan->status = $request->status;
         $pengajuan->pertimbangan = $request->pertimbangan;
-        $pengajuan->update();
-        return redirect()->back()->with('success', 'Data berhasil di ubah');
+
+        if ($pengajuan->update()) {
+            $user = User::find($pengajuan->tanggungans->profiles->user_id);
+            $user->notifications()->create([
+                'content' => 'Status pengajuan untuk ' . $pengajuan->nama . ' telah diubah.',
+            ]);
+            return redirect()->back()->with('success', 'Data berhasil diubah.');
+        } else {
+            return redirect()->back()->with('error', 'Data tidak berhasil diubah.');
+        }
     }
 
     public function verifikasi_manager($id, Request $request)
     {
-        $pengajuan = Pengajuan::where('id', $id)->first();
+        $pengajuan = Pengajuan::with('tanggungans.profiles')->where('id', $id)->first();
         $pengajuan->status = $request->status;
         $pengajuan->pertimbangan = $request->pertimbangan;
-        $pengajuan->update();
-        return redirect()->back()->with('success', 'Data berhasil di ubah');
+        
+        if ($pengajuan->update()) {
+            $user = User::find($pengajuan->tanggungans->profiles->user_id);
+            $user->notifications()->create([
+                'content' => 'Status pengajuan untuk ' . $pengajuan->nama . ' telah diubah.',
+            ]);
+            return redirect()->back()->with('success', 'Data berhasil diubah.');
+        } else {
+            return redirect()->back()->with('error', 'Data tidak berhasil diubah.');
+        }
     }
 }

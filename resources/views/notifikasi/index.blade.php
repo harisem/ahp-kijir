@@ -20,16 +20,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>14/02/2022 17:30:28</td>
-                                <td>Status Pengajuan Beasiswa telah diperbarui.</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>10/02/2022 10:20:18</td>
-                                <td>Ada berita terbaru terkait pengajuan beasiswa.</td>
-                            </tr>
+                            @if (count($notifications) !== 0)
+                                @foreach ($notifications as $n)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ date('d/m/Y H:i:s', strtotime($n->created_at)) }}</td>
+                                        <td>{{ $n->content }}</td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="3">Tidak ada notifikasi.</td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>

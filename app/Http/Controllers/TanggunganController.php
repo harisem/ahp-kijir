@@ -6,6 +6,7 @@ use App\Models\Kriteria;
 use App\Models\Pengajuan;
 use App\Models\Profile;
 use App\Models\Tanggungan;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,14 +55,23 @@ class TanggunganController extends Controller
         $selectedUser = Profile::with('users')->whereHas('users', function ($query) use ($request) {
             $query->where('nip', $request->nip);
         })->first();
-        $selectedUser->tanggungans()->create([
+        $created = $selectedUser->tanggungans()->create([
             'nik' => $request->nik,
             'nama' => $request->nama,
             'tanggal_lahir' => Carbon::parse($request->tglLahir),
             'status_keluarga' => $request->status
         ]);
 
-        return redirect()->back()->with('success', 'Data berhasil disimpan.');
+        if ($created) {
+            $user = User::find($selectedUser->user_id);
+            $user->notifications()->create([
+                'content' => $request->nama . ' telah ditambahkan sebagai tanggunganmu.'
+            ]);
+            return redirect()->back()->with('success', 'Data berhasil disimpan.');
+        } else {
+            return redirect()->back()->with('error', 'Data tidak berhasil disimpan.');
+        }
+
     }
 
     public function destroy($id)
