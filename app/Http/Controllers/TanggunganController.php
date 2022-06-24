@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class TanggunganController extends Controller
 {
@@ -62,16 +63,23 @@ class TanggunganController extends Controller
             'status_keluarga' => $request->status
         ]);
 
+
         if ($created) {
             $user = User::find($selectedUser->user_id);
             $user->notifications()->create([
                 'content' => $request->nama . ' telah ditambahkan sebagai tanggunganmu.'
             ]);
+
+            $data = array('name' => $user->profiles->name, 'message' => 'Tanggungan telah ditambah ', $created->name);
+            Mail::send('laporan.email_status', ['data' => $data, 'email' => $user], function ($message) use ($user) {
+
+                $message->from(env('MAIL_USERNAME'), 'Rizki');
+                $message->to($user->email)->subject('Status Notfikasi Update');
+            });
             return redirect()->back()->with('success', 'Data berhasil disimpan.');
         } else {
             return redirect()->back()->with('error', 'Data tidak berhasil disimpan.');
         }
-
     }
 
     public function destroy($id)
