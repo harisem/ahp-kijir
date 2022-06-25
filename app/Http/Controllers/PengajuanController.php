@@ -228,7 +228,7 @@ class PengajuanController extends Controller
             $data = array('name' => $user->profiles->name, 'message' => 'status telah diubah menjadi ', $pengajuan->status);
             //tambah email
             Mail::send('laporan.email_status', ['data' => $data, 'email' => $user], function ($message) use ($user) {
-                $message->from(env('MAIL_USERNAME'), 'Rizki');
+                $message->from(env('MAIL_USERNAME'), 'Notifikasi');
                 $message->to($user->email)->subject('Status Notfikasi Update');
             });
             return redirect()->back()->with('success', 'Data berhasil diubah.');
