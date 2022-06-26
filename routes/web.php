@@ -73,8 +73,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan', function () {
         return view('laporan.index');
     })->name('laporan');
-
-    Route::get('/laporan/pdf', function () {
-        return view('laporan.myPdf');
-    });
 });
+Route::get('/laporan/pdf', 'PengajuanController@download_laporan')->name('download_laporan');

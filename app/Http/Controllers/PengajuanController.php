@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Dompdf\Dompdf;
 
 class PengajuanController extends Controller
 {
@@ -258,5 +259,21 @@ class PengajuanController extends Controller
         } else {
             return redirect()->back()->with('error', 'Data tidak berhasil diubah.');
         }
+    }
+
+    public function download_laporan()
+    {
+        // $data =  Pengajuan::with('tanggungans')->whereYear('created_at', '=', '2022')->get();
+        // foreach ($data->tanggungans as $datas) {
+        //     dd($datas);
+        // }
+        // dd($data);
+        $pdf = new Dompdf();
+        $html = view('laporan.pdf');
+        $pdf->loadHtml($html);
+        $pdf->setPaper('A4', 'potrait');
+        $pdf->render();
+        $pdf->stream();
+        return redirect()->back()->with('success', 'data berhasil di download');
     }
 }
