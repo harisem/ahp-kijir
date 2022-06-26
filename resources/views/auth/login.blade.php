@@ -5,7 +5,26 @@
 @if(Auth::user())
 {{redirect()->back()}}
 @endif
+@if ($message = Session::get('success'))
+<div class="alert alert-success alert-block">
+    <strong>{{ $message }}</strong>
+</div>
+@endif
 
+@if ($message = Session::get('error'))
+<div class="alert alert-danger alert-block">
+    <strong>{{ $message }}</strong>
+</div>
+@endif
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 <div class="row justify-content-center">
     <div class="col-xl-6 col-lg-8 col-md-5">
         <div class="card o-hidden border-0 shadow-lg my-5">
