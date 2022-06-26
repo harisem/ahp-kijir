@@ -12,13 +12,14 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class PengajuanController extends Controller
 {
     public function index()
     {
-        $user = User::with('profiles.tanggungans')->where('id' , Auth::id())->first();
+        $user = User::with('profiles.tanggungans')->where('id', Auth::id())->first();
         $currentYear = Carbon::now()->year;
         return view('beasiswa.tambah', [
             'user' => $user,
@@ -224,6 +225,12 @@ class PengajuanController extends Controller
             $user->notifications()->create([
                 'content' => 'Status pengajuan untuk ' . $pengajuan->nama . ' telah diubah.',
             ]);
+            $data = array('name' => $user->profiles->name, 'message' => 'status telah diubah menjadi ', $pengajuan->status);
+            //tambah email
+            Mail::send('laporan.email_status', ['data' => $data, 'email' => $user], function ($message) use ($user) {
+                $message->from(env('MAIL_USERNAME'), 'Notifikasi');
+                $message->to($user->email)->subject('Status Notfikasi Update');
+            });
             return redirect()->back()->with('success', 'Data berhasil diubah.');
         } else {
             return redirect()->back()->with('error', 'Data tidak berhasil diubah.');
@@ -235,12 +242,18 @@ class PengajuanController extends Controller
         $pengajuan = Pengajuan::with('tanggungans.profiles')->where('id', $id)->first();
         $pengajuan->status = $request->status;
         $pengajuan->pertimbangan = $request->pertimbangan;
-        
+
         if ($pengajuan->update()) {
             $user = User::find($pengajuan->tanggungans->profiles->user_id);
             $user->notifications()->create([
                 'content' => 'Status pengajuan untuk ' . $pengajuan->nama . ' telah diubah.',
             ]);
+            $data = array('name' => $user->profiles->name, 'message' => 'status telah diubah menjadi ', $pengajuan->status);
+
+            Mail::send('laporan.email_status', ['data' => $data, 'email' => $user], function ($message) use ($user) {
+                $message->from(env('MAIL_USERNAME'), 'Rizki');
+                $message->to($user->email)->subject('Status Notfikasi Update');
+            });
             return redirect()->back()->with('success', 'Data berhasil diubah.');
         } else {
             return redirect()->back()->with('error', 'Data tidak berhasil diubah.');
