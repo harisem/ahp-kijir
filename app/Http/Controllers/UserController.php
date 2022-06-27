@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -61,7 +62,7 @@ class UserController extends Controller
                 'level_akun' => $request->levelAkunBaru,
                 'password' => bcrypt($request->passwordBaru)
             ]);
-    
+
             $user->profiles()->create([
                 'name' => $request->namaBaru,
                 'jabatan' => $request->jabatanBaru,
@@ -69,13 +70,13 @@ class UserController extends Controller
                 'mulai_kerja' => Carbon::parse($request->tglBergabungBaru),
                 'gaji_pokok' => $request->gajiPokokBaru,
             ]);
-    
         });
         return redirect()->back()->with('success', 'Data berhasil disimpan.');
     }
 
     public function update($id, Request $request)
     {
+        // dd($request);
         $request->validate([
             'nip' => 'required',
             'nama' => 'required',
@@ -85,16 +86,31 @@ class UserController extends Controller
             'gaji_pokok' => 'required',
             'level_akun' => 'required',
             'email' => 'required|email',
+            'current-password' => 'string',
+            'new-password' => 'string|min:8|confirmed',
         ]);
+
 
         DB::transaction(function () use ($request, $id) {
             $user = User::find($id);
             $profile = Profile::where('user_id', $id)->first();
+            if (!(Hash::check($request->get('current-password'), $user->password))) {
+                // The passwords matches
+                return redirect()->back()->with("error", "Your current password does not matches with the password.");
+            }
+
+            if (strcmp($request->get('current-password'), $request->get('new-password')) == 0) {
+                // Current password and new password same
+                return redirect()->back()->with("error", "New Password cannot be same as your current password.");
+            }
+
 
             $user->update([
                 'email' => $request->email,
                 'level_akun' => $request->level_akun,
+                'password' =>  bcrypt($request->get('new-password'))
             ]);
+
 
             $profile->update([
                 'name' => $request->nama,
@@ -103,9 +119,11 @@ class UserController extends Controller
                 'mulai_kerja' => Carbon::parse($request->tanggal_bergabung),
                 'gaji_pokok' => $request->gaji_pokok,
             ]);
+
+            return redirect()->back()->with('success', 'Data berhasil diubah.');
         });
 
-        return redirect()->back()->with('success', 'Data berhasil diubah.');
+        return redirect()->back();
     }
 
     public function profile()
