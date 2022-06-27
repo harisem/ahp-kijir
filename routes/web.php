@@ -70,8 +70,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/notifikasi', 'NotificationController@index')->name('notifikasi');
 
-    Route::get('/laporan', function () {
-        return view('laporan.index');
-    })->name('laporan');
+    Route::get('/laporan', 'PengajuanController@laporan')->name('laporan');
 });
-Route::get('/laporan/pdf', 'PengajuanController@download_laporan')->name('download_laporan');
+Route::get('/laporan/pdf/{year}', 'PengajuanController@download_laporan')->name('download_laporan');

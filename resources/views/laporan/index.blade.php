@@ -20,27 +20,15 @@ Laporan
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>2022</td>
-                            <td>Laporan Perangkingan Daftar Pengajuan Beasiswa 2022</td>
-                            <td class="text-center">
-                                <button type="button" class="btn btn-sm btn-info">Lihat</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2021</td>
-                            <td>Laporan Perangkingan Daftar Pengajuan Beasiswa 2021</td>
-                            <td class="text-center">
-                                <button type="button" class="btn btn-sm btn-info">Lihat</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2020</td>
-                            <td>Laporan Perangkingan Daftar Pengajuan Beasiswa 2020</td>
-                            <td class="text-center">
-                                <button type="button" class="btn btn-sm btn-info">Lihat</button>
-                            </td>
-                        </tr>
+                        @foreach ($data as $d)
+                            <tr>
+                                <td>{{ $d->year }}</td>
+                                <td>Laporan Perangkingan Daftar Pengajuan Beasiswa {{ $d->year }}</td>
+                                <td class="text-center">
+                                    <a href="{{ route('download_laporan', $d->year) }}" class="btn btn-sm btn-info" target="_blank">Lihat</a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
