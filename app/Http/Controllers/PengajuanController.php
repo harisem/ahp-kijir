@@ -18,6 +18,11 @@ use Dompdf\Dompdf;
 
 class PengajuanController extends Controller
 {
+    public function __construct()
+    {
+        $this->currentDate = Carbon::now()->year;
+    }
+
     public function index()
     {
         $user = User::with('profiles.tanggungans')->where('id', Auth::id())->first();
@@ -25,6 +30,28 @@ class PengajuanController extends Controller
         return view('beasiswa.tambah', [
             'user' => $user,
             'currentYear' => $currentYear
+        ]);
+    }
+
+    public function dashboard()
+    {
+        $pengajuan = Pengajuan::all();
+        $pengajuans = $pengajuan->groupBy(function ($item, $key) {
+            return $item->created_at->format('Y');
+        });
+        $years = Pengajuan::select(DB::raw('YEAR(created_at) year'))->groupBy('year')->get();
+        $selectedYear = request()->year;
+        
+        $data = [
+            'masuk' => $selectedYear ? count($pengajuans[$selectedYear]) : count($pengajuans[$this->currentDate]),
+            'diterima' => $selectedYear ? count($pengajuans[$selectedYear]->where('status', 'disetujui')) : count($pengajuans[$this->currentDate]->where('status', 'disetujui')),
+            'selesai' => $selectedYear ? count($pengajuans[request()->year]->whereIn('status', ['disetujui', 'tidak disetujui'])) : count($pengajuans[$this->currentDate]->whereIn('status', ['disetujui', 'tidak disetujui']))
+        ];
+
+        return view('dashboard.index', [
+            'pengajuans' => $years,
+            'data' => $data,
+            'currentYear' => $selectedYear ? $selectedYear : $this->currentDate
         ]);
     }
 

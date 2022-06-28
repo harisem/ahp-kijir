@@ -10,7 +10,7 @@
             <a class="nav-link" href="{{ route('notifikasi') }}">
                 <i class="fas fa-bell fa-fw {{ request()->routeIs('notifikasi') ? 'text-gray-800' : '' }}"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3+</span>
+                <span class="badge badge-danger badge-counter"></span>
             </a>
         </li>
         <div class="topbar-divider d-none d-sm-block"></div>

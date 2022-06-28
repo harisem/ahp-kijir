@@ -12,15 +12,17 @@ Dashboard
         <div class="card-body">
             <form action="" class="col-md-3 mb-3">
                 <div class="row">
-                    <label for="" class="col-sm-3 col-form-label text-dark">Tahun</label>
-                    <div class="col-sm-5">
-                        <select class="custom-select" aria-label="Default select example">
-                            <option value="2022" selected>2022</option>
-                            <option value="2021">2021</option>
-                            <option value="2020">2020</option>
-                            <option value="2019">2019</option>
-                        </select>
-                    </div>
+                    <form action="{{ route('dashboard') }}" method="GET" id="selectForm">
+                        <label for="" class="col-sm-3 col-form-label text-dark">Tahun</label>
+                        <div class="col-sm-5">
+                            <select name="year" id="year" class="custom-select" aria-label="Default select example" onchange="selectYear()">
+                                <option value="{{ $currentYear }}" selected disabled>{{ $currentYear }}</option>
+                                @foreach ($pengajuans as $p)
+                                    <option value="{{ $p->year }}" @if($p->year === $currentYear) style="display: none;" @endif>{{ $p->year }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </form>
                 </div>
             </form>
             <div class="row">
@@ -32,7 +34,7 @@ Dashboard
                                     <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                         Jumlah Pengajuan Masuk
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $data['masuk'] }}</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-inbox fa-2x text-gray-500"></i>
@@ -50,7 +52,7 @@ Dashboard
                                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                         Jumlah Pengajuan Selesai
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">2</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $data['selesai'] }}</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-check-double fa-2x text-gray-500"></i>
@@ -68,7 +70,7 @@ Dashboard
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Jumlah Pengajuan Diterima
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">2</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $data['diterima'] }}</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-check fa-2x text-gray-500"></i>
@@ -167,4 +169,10 @@ Dashboard
 <!-- Page level custom scripts -->
 {{-- <script src="{{ asset('sb-admin-2/js/demo/chart-area-demo.js') }}"></script> --}}
 <script src="{{ asset('sb-admin-2/js/demo/chart-pie-demo.js') }}"></script>
+
+<script>
+    function selectYear() {
+        document.getElementById('selectForm').submit();
+    }
+</script>
 @endpush

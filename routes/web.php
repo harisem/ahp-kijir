@@ -35,9 +35,7 @@ Route::middleware('auth')->group(function () {
         return redirect()->route('login');
     })->name('logout');
 
-    Route::get('/dashboard', function () {
-        return view('dashboard.index');
-    })->name('dashboard');
+    Route::get('/dashboard', 'PengajuanController@dashboard')->name('dashboard');
 
     Route::prefix('berita')->name('berita.')->group(function () {
         Route::get('/posting', 'NewsController@find')->name('posting');
