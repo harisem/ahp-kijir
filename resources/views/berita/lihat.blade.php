@@ -21,7 +21,7 @@ Berita Beasiswa
                     {{$news->deskripsi}}
                 </p>
             </div>
-            <a href=" #" class="btn btn-primary">Unduh File Lampiran</a>
+            <a href="{{$news->file_lampiran()}}" class="btn btn-primary">Unduh File Lampiran</a>
         </div>
     </div>
     @endforeach
