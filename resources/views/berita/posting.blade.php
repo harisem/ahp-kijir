@@ -48,7 +48,7 @@ Posting Berita Beasiswa
                         <tr>
                             <td>{{$no++}}</td>
                             <td>{{$new->judul}}</td>
-                            <td>{{$new->file_lampiran()}}</td>
+                            <td><a href="{{$new->file_lampiran()}}">File</a></td>
                             <td>
                                 <button type="button" class="btn btn-sm btn-primary">Hapus</button>
                             </td>
