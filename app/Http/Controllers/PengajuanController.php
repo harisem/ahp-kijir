@@ -73,7 +73,7 @@ class PengajuanController extends Controller
 
     public function perangkingan()
     {
-        $pengajuans = Pengajuan::with('tanggungans.profiles')->where('status', 'menunggu keputusan')->orderBy('nilai', 'desc')->paginate(10);
+        $pengajuans = Pengajuan::with('tanggungans.profiles')->where('status', 'menunggu keputusan')->orderBy('nilai_akhir', 'desc')->paginate(10);
         return view('beasiswa.rangking', [
             'pengajuans' => $pengajuans,
         ]);
