@@ -41,7 +41,7 @@ class PengajuanController extends Controller
         });
         $years = Pengajuan::select(DB::raw('YEAR(created_at) year'))->groupBy('year')->get();
         $selectedYear = request()->year;
-        
+
         $data = [
             'masuk' => $selectedYear ? count($pengajuans[$selectedYear]) : count($pengajuans[$this->currentDate]),
             'diterima' => $selectedYear ? count($pengajuans[$selectedYear]->where('status', 'disetujui')) : count($pengajuans[$this->currentDate]->where('status', 'disetujui')),
@@ -295,7 +295,7 @@ class PengajuanController extends Controller
 
     public function download_laporan($year)
     {
-        $data =  Pengajuan::with('tanggungans.profiles.tanggungans')->whereYear('created_at', '=', $year)->orderBy('nilai_akhir', 'desc')->get();
+        $data =  Pengajuan::with('tanggungans.profiles.tanggungans')->whereYear('created_at', '=', $year)->where('status', 'disetujui')->orderBy('nilai_akhir', 'desc')->get();
         // foreach ($data->tanggungans as $datas) {
         //     dd($datas);
         // }
