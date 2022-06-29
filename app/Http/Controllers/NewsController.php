@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateNewsRequest;
 use App\Models\News;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -37,13 +38,23 @@ class NewsController extends Controller
             'file_lampiran' => $file_lampiran,
             'gambar_header' => $gambar_header
         ]);
-        //email
-        // $data = array('name' => $user->profiles->name, 'message' => 'Tanggungan telah ditambah ', $created->name);
-        // Mail::send('laporan.email_status', ['data' => $data, 'email' => $user], function ($message) use ($user) {
 
-        //     $message->from(env('MAIL_USERNAME'), 'Beasiswa');
-        //     $message->to($user->email)->subject('Status Notfikasi Update');
-        // });
+        $user = User::get();
+        foreach ($user as $users) {
+            $users->notifications()->create([
+                'content' => $users->profiles->name . ' berita terbaru telah terbit.'
+            ]);
+            //email
+            $data = array('name' => $users->profiles->name, 'message' => 'Berita terbaru telah terbuat');
+            Mail::send('laporan.email_status', ['data' => $data, 'email' => $users], function ($message) use ($users) {
+
+                $message->from(env('MAIL_USERNAME'), 'Beasiswa');
+                $message->to($users->email)->subject('Berita Terbaru terbit');
+            });
+        }
+
+
+
         return redirect()->back()->with('success', 'Berita berhasil terbuat');
     }
 
