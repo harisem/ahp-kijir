@@ -47,7 +47,7 @@ class NewsController extends Controller
             //email
             $data = array('name' => $users->profiles->name, 'message' => 'Berita terbaru telah terbuat');
             Mail::send('laporan.email_status', ['data' => $data, 'email' => $users], function ($message) use ($users) {
-                dd($users);
+
                 $message->from(env('MAIL_USERNAME'), 'Beasiswa');
                 $message->to($users->email)->subject('Berita Terbaru terbit');
             });
