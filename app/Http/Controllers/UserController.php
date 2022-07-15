@@ -136,4 +136,8 @@ class UserController extends Controller
             'profile' => $profile
         ]);
     }
+
+    public function update_profile_sendiri(Request $request)
+    {
+    }
 }

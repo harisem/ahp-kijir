@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/posting', 'NewsController@find')->name('posting');
         Route::get('/lihat',  'NewsController@lihat_berita')->name('lihat');
         Route::post('/create', 'NewsController@create')->name('news');
+        Route::get('/delete/{id}', 'NewsController@delete_berita')->name('delete_berita');
     });
 
     Route::prefix('user')->name('user.')->group(function () {

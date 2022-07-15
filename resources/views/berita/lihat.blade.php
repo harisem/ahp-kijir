@@ -16,7 +16,7 @@ Berita Beasiswa
                 {{$news->created_at}}
             </figcaption>
             <div class="text-center">
-                <img src="{{$news->gambar()}}" class="img-fluid card-img-top p-2" alt="Responsive Image">
+                <img width="200" src="{{$news->gambar()}}" class="card-img-top p-2" alt="Responsive Image">
                 <p class="card-text text-justify p-2">
                     {{$news->deskripsi}}
                 </p>
