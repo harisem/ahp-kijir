@@ -41,11 +41,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/posting', 'NewsController@find')->name('posting');
         Route::get('/lihat',  'NewsController@lihat_berita')->name('lihat');
         Route::post('/create', 'NewsController@create')->name('news');
+        Route::get('/delete/{id}', 'NewsController@delete_berita')->name('delete_berita');
     });
 
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('/profil', 'UserController@profile')->name('profil');
         Route::get('/lihat', 'UserController@index')->name('lihat');
+        Route::post('/update-my-self', 'UserController@update_profile_sendiri')->name('update_profile_sendiri');
         Route::post('/lihat/{id}', 'UserController@update')->name('ubahData');
         Route::post('/lihat', 'UserController@create')->name('tambah');
         Route::get('/tanggungan', 'TanggunganController@index')->name('tanggungan');
@@ -63,6 +65,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/rangking/{id}', 'PengajuanController@showRangking')->name('formRangking');
         Route::post('/verifikasi/{id}', 'PengajuanController@verifikasi_pengajuan')->name('verifikasi');
         Route::post('/verify/{id}', 'PengajuanController@verifikasi_manager')->name('verify');
+        Route::get('/delete-pengajuan/{id}', 'PengajuanController@delete_pengajuan')->name('delete_pengajuan');
     });
 
 

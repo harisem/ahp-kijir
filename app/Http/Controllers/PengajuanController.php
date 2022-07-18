@@ -315,4 +315,12 @@ class PengajuanController extends Controller
         $pdf->stream();
         return redirect()->back()->with('success', 'data berhasil di download');
     }
+
+    public function delete_pengajuan($id)
+    {
+        $data = Pengajuan::where('id', $id)->first();
+        $data->delete();
+
+        return redirect()->back()->with('success', 'data berhasil dihapus');
+    }
 }

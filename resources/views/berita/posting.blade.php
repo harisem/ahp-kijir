@@ -50,7 +50,7 @@ Posting Berita Beasiswa
                             <td>{{$new->judul}}</td>
                             <td><a href="{{$new->file_lampiran()}}">File</a></td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-primary">Hapus</button>
+                                <a href="{{route('berita.delete_berita',$new->id)}}" class="btn btn-sm btn-primary">Hapus</button>
                             </td>
                         </tr>
                         @endforeach

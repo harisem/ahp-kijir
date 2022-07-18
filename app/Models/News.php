@@ -13,7 +13,8 @@ class News extends Model
         'judul',
         'deskripsi',
         'file_lampiran',
-        'gambar_header'
+        'gambar_header',
+        'user_id'
     ];
 
     public function file_lampiran()
