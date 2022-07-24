@@ -31,11 +31,11 @@ Kelola Pengajuan Beasiswa
 
     <div class="card shadow mb-4 mt-4">
         <div class="card-body">
-            <form action="" class="mb-3 col-md-6">
+            <form action="{{ route('beasiswa.kelola') }}" method="GET" class="mb-3 col-md-6">
                 <div class="row flex-nowrap">
-                    <label for="" class="col-sm-2 col-form-label">Tahun</label>
+                    <label for="tahun" class="col-sm-2 col-form-label">Tahun</label>
                     <div class="col-sm-3">
-                        <select class="custom-select" aria-label="Default select example">
+                        <select name="tahun" id="tahun" class="custom-select" aria-label="Default select example">
                             <option value="2022" selected>2022</option>
                             <option value="2021">2021</option>
                             <option value="2020">2020</option>
@@ -43,11 +43,11 @@ Kelola Pengajuan Beasiswa
                         </select>
                     </div>
                     <div class="vr"></div>
-                    <label for="" class="col-sm-3 col-form-label">Status Pengajuan</label>
+                    <label for="status" class="col-sm-3 col-form-label">Status Pengajuan</label>
                     <div class="col-sm-4">
-                        <select class="custom-select" aria-label="Default select example">
-                            <option value="0" selected>Belum Disetujui</option>
-                            <option value="1">Disetujui</option>
+                        <select id="status" name="status" class="custom-select" aria-label="Default select example">
+                            <option value="menunggu keputusan" selected>Belum Disetujui</option>
+                            <option value="disetujui">Disetujui</option>
                         </select>
                     </div>
                     <div class="vr"></div>
@@ -58,7 +58,6 @@ Kelola Pengajuan Beasiswa
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>NIP</th>
                             <th>Nama Karyawan</th>
                             <th>Nama Anak</th>
                             <th>Pendidikan</th>
@@ -68,13 +67,13 @@ Kelola Pengajuan Beasiswa
                             <th>Legalisir Nilai</th>
                             <th>Surat Ket. Pendidikan</th>
                             <th>Status</th>
+                            <th>Pertimbangan</th>
                             <th>Tindakan</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($pengajuans as $p)
                         <tr>
-                            <td>{{ $p->tanggungans->profiles->users->nip }}</td>
                             <td>{{ $p->tanggungans->profiles->name }}</td>
                             <td>{{ $p->nama }}</td>
                             <td>{{ $p->jenjang_pendidikan }}</td>
@@ -90,6 +89,7 @@ Kelola Pengajuan Beasiswa
                                 <a href="{{ asset('pdf/pengajuan/' . $p->file_ket_pendidikan) }}" target="_blank">File</a>
                             </td>
                             <td>{{ Str::ucfirst($p->status) }}</td>
+                            <td>{{ Str::ucfirst($p->pertimbangan) }}</td>
                             <td>
                                 <div class="btn-group btn-group-sm" role="group">
                                     {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#verifikasi">Verifikasi</button> --}}

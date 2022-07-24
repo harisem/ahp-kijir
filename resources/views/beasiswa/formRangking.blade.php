@@ -98,7 +98,7 @@
                     <div class="mb-2 col-md-6 row">
                         <label for="pertimbangan" class="col-sm-6 form-label">Pertimbangan Penerimaan Beasiswa</label>
                         <div class="col-sm-6">
-                            <textarea class="form-control" name="pertimbangan" id="pertimbangan" rows="3"></textarea>
+                            <textarea class="form-control" name="pertimbangan" id="pertimbangan" rows="3" placeholder="{{ $pengajuan->pertimbangan }}"></textarea>
                         </div>
                     </div>
                 </div>
