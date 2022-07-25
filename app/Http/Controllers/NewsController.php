@@ -41,19 +41,19 @@ class NewsController extends Controller
             'gambar_header' => $gambar_header
         ]);
 
-        // $user = User::get();
-        // foreach ($user as $users) {
-        //     $users->notifications()->create([
-        //         'content' => $users->profiles->name . ' berita terbaru telah terbit.'
-        //     ]);
-        //     //email
-        //     $data = array('name' => $users->profiles->name, 'message' => 'Berita terbaru telah terbuat');
-        //     Mail::send('laporan.email_status', ['data' => $data, 'email' => $users], function ($message) use ($users) {
+        $user = User::get();
+        foreach ($user as $users) {
+            $users->notifications()->create([
+                'content' => $users->profiles->name . ' berita terbaru telah terbit.'
+            ]);
+            //email
+            $data = array('name' => $users->profiles->name, 'message' => 'Berita terbaru telah terbuat');
+            Mail::send('laporan.email_status', ['data' => $data, 'email' => $users], function ($message) use ($users) {
 
-        //         $message->from(env('MAIL_USERNAME'), 'Beasiswa');
-        //         $message->to($users->email)->subject('Berita Terbaru terbit');
-        //     });
-        // }
+                $message->from(env('MAIL_USERNAME'), 'Beasiswa');
+                $message->to($users->email)->subject('Berita Terbaru terbit');
+            });
+        }
 
 
 
