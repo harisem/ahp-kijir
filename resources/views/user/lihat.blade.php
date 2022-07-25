@@ -154,13 +154,7 @@ Kelola Akun Pengguna
                     <div class="mb-3 row">
                         <label for="jabatanBaru" class="col-sm-5 col-form-label">Jabatan</label>
                         <div class="col-sm-7">
-                            <select name="jabatanBaru" id="jabatanBaru" class="custom-select" aria-label="Default select example">
-                                <option value="" selected disabled>Silahkan pilih jabatan...</option>
-                                <option value="Manager Biro SDM & TI">Manager Biro SDM & TI</option>
-                                <option value="Staff TI">Staff TI</option>
-                                <option value="Staff SDM">Staff SDM</option>
-                                <option value="Karyawan">Karyawan</option>
-                            </select>
+                            <input type="text" class="form-control" name="jabatanBaru" id="jabatanBaru">
                         </div>
                     </div>
                     <div class="mb-3 row">

@@ -136,4 +136,24 @@ class UserController extends Controller
             'profile' => $profile
         ]);
     }
+
+    public function update_profile_sendiri(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'current-password' => 'string',
+            'new-password' => 'string|min:8|confirmed',
+        ]);
+
+        $user = User::where('id', Auth::user()->id)->first();
+        if (!(Hash::check($request->get('current-password'), $user->password))) {
+            // The passwords matches
+            return redirect()->back()->with("error", "Your current password does not matches with the password.");
+        }
+        $user->email = $request->email;
+        $user->password = bcrypt($request->get('new-password'));
+        $user->update();
+
+        return redirect()->back()->with('success', 'berhasil update profile');
+    }
 }

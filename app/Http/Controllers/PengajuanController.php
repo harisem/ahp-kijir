@@ -65,15 +65,28 @@ class PengajuanController extends Controller
 
     public function kelolaPengajuan()
     {
-        $pengajuans = Pengajuan::with('tanggungans.profiles.users')->latest()->paginate(10);
-        return view('beasiswa.kelola', [
-            'pengajuans' => $pengajuans,
-        ]);
+        $pengajuans = Pengajuan::with('tanggungans.profiles.users')->get();
+
+        if (request()->tahun && request()->status) {
+            $pengaujansGroupBy = $pengajuans->groupBy(function ($item, $key) {
+                return $item->created_at->format('Y');
+            });
+
+            return view('beasiswa.kelola', [
+                'pengajuans' => $pengaujansGroupBy[request()->tahun]->where('status', request()->status),
+            ]);
+        } else {
+            return view('beasiswa.kelola', [
+                'pengajuans' => $pengajuans,
+            ]);
+            
+        }
+
     }
 
     public function perangkingan()
     {
-        $pengajuans = Pengajuan::with('tanggungans.profiles')->where('status', 'menunggu keputusan')->orderBy('nilai_akhir', 'desc')->paginate(10);
+        $pengajuans = Pengajuan::with('tanggungans.profiles')->orderBy('nilai_akhir', 'desc')->paginate(10);
         return view('beasiswa.rangking', [
             'pengajuans' => $pengajuans,
         ]);
@@ -314,5 +327,13 @@ class PengajuanController extends Controller
         $pdf->render();
         $pdf->stream();
         return redirect()->back()->with('success', 'data berhasil di download');
+    }
+
+    public function delete_pengajuan($id)
+    {
+        $data = Pengajuan::where('id', $id)->first();
+        $data->delete();
+
+        return redirect()->back()->with('success', 'data berhasil dihapus');
     }
 }

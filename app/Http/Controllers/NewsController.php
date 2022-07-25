@@ -6,6 +6,7 @@ use App\Http\Requests\CreateNewsRequest;
 use App\Models\News;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -35,23 +36,24 @@ class NewsController extends Controller
         $news = News::create([
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
+            'user_id' => Auth::user()->id,
             'file_lampiran' => $file_lampiran,
             'gambar_header' => $gambar_header
         ]);
 
-        $user = User::get();
-        foreach ($user as $users) {
-            $users->notifications()->create([
-                'content' => $users->profiles->name . ' berita terbaru telah terbit.'
-            ]);
-            //email
-            $data = array('name' => $users->profiles->name, 'message' => 'Berita terbaru telah terbuat');
-            Mail::send('laporan.email_status', ['data' => $data, 'email' => $users], function ($message) use ($users) {
+        // $user = User::get();
+        // foreach ($user as $users) {
+        //     $users->notifications()->create([
+        //         'content' => $users->profiles->name . ' berita terbaru telah terbit.'
+        //     ]);
+        //     //email
+        //     $data = array('name' => $users->profiles->name, 'message' => 'Berita terbaru telah terbuat');
+        //     Mail::send('laporan.email_status', ['data' => $data, 'email' => $users], function ($message) use ($users) {
 
-                $message->from(env('MAIL_USERNAME'), 'Beasiswa');
-                $message->to($users->email)->subject('Berita Terbaru terbit');
-            });
-        }
+        //         $message->from(env('MAIL_USERNAME'), 'Beasiswa');
+        //         $message->to($users->email)->subject('Berita Terbaru terbit');
+        //     });
+        // }
 
 
 
@@ -88,5 +90,13 @@ class NewsController extends Controller
         // $pdf->render();
         // $pdf->stream();
         return redirect()->back()->with('success', 'data berhasil di download');
+    }
+
+    public function delete_berita($id)
+    {
+        $data = News::where('id', $id)->first();
+        $data->delete();
+
+        return redirect()->back()->with('success', 'data berhasil dihapus');
     }
 }
