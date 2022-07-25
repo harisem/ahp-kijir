@@ -173,11 +173,11 @@ class PengajuanController extends Controller
             $tanggungan = Kriteria::with('subkriterias')->where('nama', 'Tanggungan')->first();
             $subTanggungan = $tanggungan->subkriterias;
             switch (true) {
-                case $request->jumlahTanggungan < 3:
+                case $request->jumlahTanggungan < 2:
                     $nilaiTanggungan = $tanggungan->nilai * $subTanggungan->where('nama', 'Kurang Mendukung')->first()->nilai;
                     break;
 
-                case $request->jumlahTanggungan >= 3 && $request->jumlahTanggungan <= 6:
+                case $request->jumlahTanggungan >= 2 && $request->jumlahTanggungan <= 4:
                     $nilaiTanggungan = $tanggungan->nilai * $subTanggungan->where('nama', 'Mendukung')->first()->nilai;
                     break;
 
