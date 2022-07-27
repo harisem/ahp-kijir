@@ -31,7 +31,13 @@ Profil
             <div class="row flex-nowrap">
                 <div class="col-4 my-auto">
                     <div class="text-center">
-                        <img src="https://cdn.pixabay.com/photo/2014/04/02/10/25/man-303792_960_720.png" class="rounded-circle mb-2" style="height: 250px" alt="...">
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#modalChangePic">
+                            @if ($profile->foto_profil !== 'default.jpg')
+                                <img src="{{ asset('profiles/' . $profile->foto_profil) }}" class="rounded mb-2" style="height: 350px" alt="...">
+                            @else
+                                <img src="https://cdn.pixabay.com/photo/2014/04/02/10/25/man-303792_960_720.png" class="rounded-circle mb-2" style="height: 250px" alt="...">
+                            @endif
+                        </a>
                         <h4 class="m-2 text-dark">{{ $profile->name }}</h4>
                         <h5 class="text-black-50">{{ $profile->jabatan }}</h5>
                     </div>
@@ -133,6 +139,31 @@ Profil
                     </table>
                     @endif
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalChangePic" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Change Profile Picture</h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('user.update_foto') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="profilePic" class="form-label">Select file</label>
+                        <input class="form-control" type="file" name="profilePic" id="profilePic">
+                    </div>
+                    <div class="d-md-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary mr-2" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
             </div>
         </div>
     </div>

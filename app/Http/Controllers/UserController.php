@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -53,6 +54,7 @@ class UserController extends Controller
             'levelAkunBaru' => 'required',
             'emailBaru' => 'required',
             'passwordBaru' => 'required',
+            'foto_profil_baru' => 'image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
         DB::transaction(function () use ($request) {
@@ -63,12 +65,19 @@ class UserController extends Controller
                 'password' => bcrypt($request->passwordBaru)
             ]);
 
+            if ($request->file('foto_profil')) {
+                $file = $request->file('foto_profil');
+                $fileName = Str::random(20) . '.' . $file->extension();
+                $file->move('profiles', $fileName);
+            }
+
             $user->profiles()->create([
                 'name' => $request->namaBaru,
                 'jabatan' => $request->jabatanBaru,
                 'tanggal_lahir' => Carbon::parse($request->tglLahirBaru),
                 'mulai_kerja' => Carbon::parse($request->tglBergabungBaru),
                 'gaji_pokok' => $request->gajiPokokBaru,
+                'foto_profil' => $request->file('foto_profil') ? $fileName : 'default.jpg',
             ]);
         });
         return redirect()->back()->with('success', 'Data berhasil disimpan.');
@@ -88,6 +97,7 @@ class UserController extends Controller
             'email' => 'required|email',
             'current-password' => 'string',
             'new-password' => 'string|min:8|confirmed',
+            'foto_profil' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
 
@@ -120,6 +130,16 @@ class UserController extends Controller
                 'gaji_pokok' => $request->gaji_pokok,
             ]);
 
+            if ($request->file('foto_profil')) {
+                $file = $request->file('foto_profil');
+                $fileName = Str::random(20) . '.' . $file->extension();
+                $file->move('profiles', $fileName);
+
+                $profile->update([
+                    'foto_profil' => $fileName
+                ]);
+            }
+
             return redirect()->back()->with('success', 'Data berhasil diubah.');
         });
 
@@ -135,6 +155,29 @@ class UserController extends Controller
         return view('user.profil', [
             'profile' => $profile
         ]);
+    }
+
+    public function changeProfilePicture(Request $request)
+    {
+        $profile = Profile::whereHas('users', function ($query) {
+            $query->where('id', Auth::id());
+        })->first();
+
+        // dd($profile);
+
+        $request->validate([
+            'profilePic' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $file = $request->file('profilePic');
+        $fileName = Str::random(20) . '.' . $file->extension();
+        $file->move('profiles', $fileName);
+
+        $profile->update([
+            'foto_profil' => $fileName
+        ]);
+
+        return redirect()->back()->with('success', 'Foto profil berhasil diubah.');
     }
 
     public function update_profile_sendiri(Request $request)
@@ -155,5 +198,16 @@ class UserController extends Controller
         $user->update();
 
         return redirect()->back()->with('success', 'berhasil update profile');
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        DB::transaction(function () use ($user) {
+            $profile = Profile::where('user_id', $user->id)->first();
+            $profile->delete();
+            $user->delete();
+        });
+        return redirect()->route('user.lihat')->with('success', 'user berhasil di hapus.');
     }
 }

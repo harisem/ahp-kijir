@@ -48,10 +48,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/profil', 'UserController@profile')->name('profil');
         Route::get('/lihat', 'UserController@index')->name('lihat');
         Route::post('/update-my-self', 'UserController@update_profile_sendiri')->name('update_profile_sendiri');
+        Route::post('/change-profile-pic', 'UserController@changeProfilePicture')->name('update_foto');
         Route::post('/lihat/{id}', 'UserController@update')->name('ubahData');
         Route::post('/lihat', 'UserController@create')->name('tambah');
         Route::get('/tanggungan', 'TanggunganController@index')->name('tanggungan');
         Route::delete('/tanggungan/{id}', 'TanggunganController@destroy')->name('hapusTanggungan');
+        Route::get('/{id}', 'UserController@destroy')->name('hapusUser');
         Route::post('/tanggungan', 'TanggunganController@create')->name('tambahTanggungan');
     });
 

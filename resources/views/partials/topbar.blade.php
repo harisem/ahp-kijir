@@ -20,7 +20,7 @@
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->profiles->name }}</span>
                 <img class="img-profile rounded-circle"
-                    src="{{ asset('sb-admin-2/img/undraw_profile.svg') }}">
+                    src="{{ Auth::user()->profiles->foto_profil !== 'default.jpg' ? asset('profiles/' . Auth::user()->profiles->foto_profil) : asset('sb-admin-2/img/undraw_profile.svg') }}">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

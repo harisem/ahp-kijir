@@ -34,7 +34,11 @@ Kelola Akun Pengguna
             <div class="row flex-nowrap">
                 <div class="col-4 my-auto">
                     <div class="text-center">
-                        <img src="https://cdn.pixabay.com/photo/2014/04/02/10/25/man-303792_960_720.png" class="rounded-circle mb-2" style="height: 250px" alt="...">
+                        @if ($users['user']->foto_profil !== 'default.jpg')
+                            <img src="{{ asset('profiles/' . $users['user']->foto_profil) }}" class="rounded mb-2" style="height: 350px" alt="...">
+                        @else
+                            <img src="https://cdn.pixabay.com/photo/2014/04/02/10/25/man-303792_960_720.png" class="rounded-circle mb-2" style="height: 250px" alt="...">
+                        @endif
                         <h4 class="m-2 text-dark">{{ $users['user']->name }}</h4>
                         <h5 class="text-black-50">{{ $users['user']->jabatan }}</h5>
                         <button type="button" class="btn btn-primary mt-4" data-toggle="modal" data-target="#tambahPengguna">Tambah Pengguna</button>
@@ -47,11 +51,9 @@ Kelola Akun Pengguna
                             <label for="nip" class="col-sm-5 col-form-label">NIP</label>
                             <div class="col-sm-7">
                                 <select name="id" id="id" class="custom-select" aria-label="Default select example" onchange="selected()">
-                                    <option value="{{ $users['user']->users->nip }}" selected>{{ $users['user']->users->nip }}</option>
+                                    {{-- <option value="{{ $users['user']->users->nip }}" selected>{{ $users['user']->users->nip }}</option> --}}
                                     @foreach ($users['all'] as $u)
-                                    @if ($u->users->id !== Auth::id())
-                                    <option value="{{ $u->users->nip }}">{{ $u->users->nip }}</option>
-                                    @endif
+                                    <option value="{{ $u->users->nip }}" @if($users['user']->users->nip === $u->users->nip) selected @endif>{{ $u->users->nip }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -90,7 +92,7 @@ Kelola Akun Pengguna
                         </div>
                         <div class="text-center">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ubahData">Ubah Data</button>
-                            <button type="submit" class="btn btn-warning">Hapus</button>
+                            <a href="{{ route('user.hapusUser', $users['user']->users->id) }}" class="btn btn-warning">Hapus</a>
                         </div>
                     </form>
                 </div>
@@ -137,7 +139,7 @@ Kelola Akun Pengguna
                 <h5 class="modal-title mx-auto" id="exampleModalLabel">Tambah Pengguna</h5>
             </div>
             <div class="modal-body">
-                <form action="{{ route('user.tambah') }}" method="POST">
+                <form action="{{ route('user.tambah') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3 row">
                         <label for="nipBaru" class="col-sm-5 col-form-label">NIP</label>
@@ -220,9 +222,9 @@ Kelola Akun Pengguna
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="formFileBaru" class="col-sm-5 col-form-label">Foto Profil</label>
+                        <label for="foto_profil_baru" class="col-sm-5 col-form-label">Foto Profil</label>
                         <div class="col-sm-7">
-                            <input class="custom-file" type="file" name="formFileBaru" id="formFileBaru">
+                            <input class="custom-file" type="file" name="foto_profil_baru" id="foto_profil_baru">
                         </div>
                     </div>
                     <div class="text-center">
@@ -243,7 +245,7 @@ Kelola Akun Pengguna
                 <h5 class="modal-title mx-auto" id="exampleModalLabel">Ubah Data Pengguna</h5>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('user.ubahData', $users['user']->users->id) }}">
+                <form method="POST" action="{{ route('user.ubahData', $users['user']->users->id) }}" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3 row">
                         <label for="nip" class="col-sm-5 col-form-label">NIP</label>
