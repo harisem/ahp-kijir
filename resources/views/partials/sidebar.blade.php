@@ -31,7 +31,7 @@
         </a>
         <div id="collapseTwo" class="collapse {{ request()->routeIs('berita.*') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                @if(Auth::user()->level_akun == 'karyawan' || Auth::user()->level_akun == 'manager' || Auth::user()->level_akun == 'staff sdm')
+                @if(Auth::user()->level_akun == 'karyawan' || Auth::user()->level_akun == 'manager' || Auth::user()->level_akun == 'staff ti')
                 @else
                 <a class="collapse-item {{ request()->routeIs('berita.posting') ? 'active' : '' }}" href="{{ route('berita.posting') }}">Posting Berita</a>
                 @endif
@@ -44,7 +44,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Utilities Collapse Menu -->
-    @if(Auth::user()->level_akun == 'karyawan'|| Auth::user()->level_akun == 'manager' || Auth::user()->level_akun == 'staff ti' )
+    @if(Auth::user()->level_akun == 'karyawan'|| Auth::user()->level_akun == 'manager' || Auth::user()->level_akun == 'staff sdm' )
     @else
     <li class="nav-item {{ request()->routeIs('user.*') ? 'active' : '' }}">
         <a class="nav-link {{ request()->routeIs('user.*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
@@ -63,8 +63,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Pages Collapse Menu -->
-    @if(Auth::user()->level_akun == 'manager')
-    @else
+    
     <li class="nav-item {{ request()->routeIs('beasiswa.*') ? 'active' : '' }}">
         <a class="nav-link {{ request()->routeIs('beasiswa.*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-fw fa-graduation-cap"></i>
@@ -74,19 +73,19 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item {{ request()->routeIs('beasiswa.tambah') ? 'active' : '' }}" href="{{ route('beasiswa.tambah') }}">Tambah Pengajuan</a>
                 <a class="collapse-item {{ request()->routeIs('beasiswa.status') ? 'active' : '' }}" href="{{ route('beasiswa.status') }}">Lihat Status Pengajuan</a>
-                @if(Auth::user()->level_akun == 'karyawan' || Auth::user()->level_akun == 'staff ti')
+                @if(Auth::user()->level_akun == 'karyawan' || Auth::user()->level_akun == 'staff ti' || Auth::user()->level_akun == 'manager')
                 @else
                 <a class="collapse-item {{ request()->routeIs('beasiswa.kelola') ? 'active' : '' }}" href="{{ route('beasiswa.kelola') }}">Kelola Pengajuan</a>
                 @endif
             </div>
         </div>
     </li>
-    @endif
+    
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Charts -->
-    @if(Auth::user()->level_akun == 'karyawan' || Auth::user()->level_akun == 'staff sdm')
+    @if(Auth::user()->level_akun == 'karyawan' || Auth::user()->level_akun == 'staff sdm' || Auth::user()->level_akun == 'staff ti')
     @else
     <li class="nav-item {{ request()->routeIs('beasiswa.rangking') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('beasiswa.rangking') }}">
@@ -98,7 +97,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Tables -->
-    @if(Auth::user()->level_akun == 'karyawan')
+    @if(Auth::user()->level_akun == 'karyawan' || Auth::user()->level_akun == 'staff ti'))
     @else
     <li class="nav-item {{ request()->routeIs('laporan') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('laporan') }}">

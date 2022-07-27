@@ -58,20 +58,22 @@
                 <th id="tableku">Nilai</th>
                 <th id="tableku">Jumlah Tanggungan</th>
                 <th id="tableku">Masa Kerja</th>
+                <th id="tableku">Nilai Akhir</th>
 
             </tr>
         </thead>
         <tbody>
             @foreach ($data as $d)
                 <tr>
-                    <td id="tableku" scope="row">{{ $loop->iteration }}</td>
-                    <td id="tableku">{{ $d->tanggungans->profiles->name }}</td>
+                    <td id="tableku" align="center" scope="row">{{ $loop->iteration }}</td>
+                    <td id="tableku" align="center">{{ $d->tanggungans->profiles->name }}</td>
                     <td id="tableku" align="center">{{ $d->nama }}</td>
                     <td id="tableku" align="center">{{ $d->jenjang_pendidikan }}</td>
                     <td id="tableku" align="center">{{ $d->institusi_pendidikan }}</td>
-                    <td id="tableku" align="center">{{ $d->nilai_akhir }}</td>
+                    <td id="tableku" align="center">{{ $d->nilai}}</td>
                     <td id="tableku" align="center">{{ count($d->tanggungans->profiles->tanggungans) }}</td>
                     <td id="tableku" align="center">{{ $d->masa_kerja }}</td>
+                    <td id="tableku" align="center">{{ $d->nilai_akhir }}</td>
                 </tr>
             @endforeach
         </tbody>
@@ -101,7 +103,7 @@
         <p></p>
         <table width="100%">
             <tr>
-                <td style="text-align: right;">Sukmanto</td>
+                <td style="text-align: right;">Johnny</td>
 
                 <td></td>
 
@@ -109,7 +111,7 @@
         </table>
         <table width="100%">
             <tr>
-                <td style="text-align: right;">NPP:D/APG/001/07</td>
+                <td style="text-align: right;">NIP:1923456789</td>
 
                 <td></td>
 
