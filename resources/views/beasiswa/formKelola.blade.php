@@ -20,7 +20,7 @@ Kelola Pengajuan Beasiswa
                         </div>
                     </div>
                     <div class="mb-2 col-md-6 row">
-                        <label for="namaAnak" class="col-sm-6 col-form-label">Nama Anak</label>
+                        <label for="namaAnak" class="col-sm-6 col-form-label">Nama Child</label>
                         <div class="col-sm-6">
                             <input type="text" readonly class="form-control" id="namaAnak" value="{{ $pengajuan->nama }}">
                         </div>
